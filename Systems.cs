@@ -10,10 +10,10 @@ public class SystemBase
     }
 }
 
+//增删物体和场景初始化
 public class EntitySystem : SystemBase
 {
     public EntitySystem(GameWorld world) : base(world) { }
-
 
     public void AddEntity(Entity e)
     {
@@ -45,6 +45,7 @@ public class EntitySystem : SystemBase
         world.moveSystem.Add(e.speed);
         world.gameObjectSystem.SetToTop(e.gameObject);
     }
+
     public void InitScene()
     {
         for (int i = 0; i < 50; i++)
@@ -66,6 +67,7 @@ public class EntitySystem : SystemBase
     }
 }
 
+//和Unity显示部分的桥接
 public class GameObjectSystem : SystemBase
 {
     public GameObjectSystem(GameWorld world) : base(world) { }
@@ -100,6 +102,7 @@ public class GameObjectSystem : SystemBase
     }
 }
 
+//移动
 public class MoveSystem : SystemBase
 {
     public MoveSystem(GameWorld world) : base(world) { }
@@ -134,6 +137,7 @@ public class MoveSystem : SystemBase
     }
 }
 
+//操控
 public class InputSystem : SystemBase
 {
     public InputSystem(GameWorld world) : base(world) { }
@@ -144,6 +148,7 @@ public class InputSystem : SystemBase
     }
 }
 
+//吞食逻辑
 public class EatSystem : SystemBase
 {
     public EatSystem(GameWorld world) : base(world) { }
@@ -165,6 +170,7 @@ public class EatSystem : SystemBase
     }
 }
 
+//圆推挤
 public class CirclePushSystem : SystemBase
 {
     public CirclePushSystem(GameWorld world) : base(world) { }
@@ -185,6 +191,7 @@ public class CirclePushSystem : SystemBase
     }
 }
 
+//吞食时的动画
 public class EatingSystem : SystemBase
 {
     public EatingSystem(GameWorld world) : base(world) { }
