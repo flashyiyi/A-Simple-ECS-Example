@@ -96,7 +96,9 @@ public class MoveAbleEntity : Entity
         speed = new SpeedComponent() { entity = this };
     }
 }
+#endregion
 
+#region System
 public class SystemBase
 {
     public GameWorld world;
@@ -105,9 +107,6 @@ public class SystemBase
         this.world = world;
     }
 }
-#endregion
-
-#region System
 //增删物体和场景初始化
 public class EntitySystem : SystemBase
 {
