@@ -163,18 +163,18 @@ public class InputSystem : SystemBase
 public class EatSystem : SystemBase
 {
     public EatSystem(GameWorld world) : base(world) { }
-    public void Update(Entity source, Entity target)
+    public void Update(PositionComponent sourcePosition, SizeComponent sourceSize, PositionComponent targetPosition, SizeComponent targetSize, Entity target)
     {
-        float sizeSum = source.size.value + target.size.value + 0.05f;
-        if ((source.position.value - target.position.value).sqrMagnitude < sizeSum * sizeSum)
+        float sizeSum = sourceSize.value + targetSize.value + 0.05f;
+        if ((sourcePosition.value - target.position.value).sqrMagnitude < sizeSum * sizeSum)
         {
-            source.size.value = Mathf.Sqrt(source.size.value * source.size.value + target.size.value * target.size.value);
-            Eat(source, target);
+            sourceSize.value = Mathf.Sqrt(sourceSize.value * sourceSize.value + targetSize.value * targetSize.value);
+            Kill(target, sourcePosition);
         }
     }
-    public void Eat(Entity e, Entity food)
+    public void Kill(Entity food, PositionComponent sourcePosition)
     {
-        world.eatingSystem.CreateFrom(food.gameObject, food.position, e.position);
+        world.eatingSystem.CreateFrom(food.gameObject, food.position, sourcePosition);
 
         world.entitySystem.RemoveEntity(food);
         world.entitySystem.AddRandomEntity();
@@ -411,7 +411,7 @@ public class GameWorld : MonoBehaviour
                     continue;
 
                 if (item.team.id == 0) //是食物，执行吃逻辑
-                    eatSystem.Update(player, item);
+                    eatSystem.Update(player.position, player.size, item.position, item.size, item);
                 else if (item.team.id == 1) //是玩家控制角色，执行圆推挤逻辑
                     circlePushSystem.Update(player.position, player.size, item.position, item.size);
             }
