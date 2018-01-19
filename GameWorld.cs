@@ -152,10 +152,10 @@ public class MoveSystem : SystemBase
 public class InputSystem : SystemBase
 {
     public InputSystem(GameWorld world) : base(world) { }
-    public void Update(MoveAbleEntity target)
+    public void Update(SpeedComponent speed, PositionComponent position)
     {
-        Vector2 delta = (Vector2)world.mainCamera.ScreenToWorldPoint(Input.mousePosition) - target.position.value;
-        target.speed.value = Vector2.ClampMagnitude(target.speed.value + delta.normalized * Time.deltaTime, target.speed.maxValue);
+        Vector2 delta = (Vector2)world.mainCamera.ScreenToWorldPoint(Input.mousePosition) - position.value;
+        speed.value = Vector2.ClampMagnitude(speed.value + delta.normalized * Time.deltaTime, speed.maxValue);
     }
 }
 
@@ -404,7 +404,7 @@ public class GameWorld : MonoBehaviour
             if (player.destroyed)
                 continue;
 
-            inputSystem.Update(player);
+            inputSystem.Update(player.speed, player.position);
             foreach (Entity item in entitys)
             {
                 if (item == player || item.destroyed)
@@ -422,8 +422,8 @@ public class GameWorld : MonoBehaviour
             if (speed.destroyed)
                 continue;
 
-            MoveAbleEntity moveEnity = speed.entity as MoveAbleEntity;
-            moveSystem.Update(speed, moveEnity.position, moveEnity.size);
+            Entity enity = speed.entity;
+            moveSystem.Update(speed, enity.position, enity.size);
         }
         //和Entity无关的Component
         foreach (EatingComponent item in eatings)
