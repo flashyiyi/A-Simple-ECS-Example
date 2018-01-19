@@ -72,7 +72,6 @@ public class EatingComponent : BaseComponent
 #region Entity
 public class Entity : DItem
 {
-    public GameWorld world;
     public GameObjectComponent gameObject;
     public PositionComponent position;
     public SizeComponent size;
@@ -377,7 +376,7 @@ public class GameWorld : MonoBehaviour
         circlePushSystem = new CirclePushSystem(this);
 
         entitySystem.InitScene();
-        ApplyDelayCommands();
+        ApplyDelayCommands();//执行延迟增删数组内容的操作
     }
     
     public void ApplyDelayCommands()
